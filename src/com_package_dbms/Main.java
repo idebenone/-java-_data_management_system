@@ -33,7 +33,7 @@ public class Main {
 					String name = input.nextLine();
 					
 					System.out.println("Enter Student USN: ");
-					String roll = input.nextLine();
+					int roll = input.nextInt();
 					
 					System.out.println("Enter Student Department: ");
 					String dept = input.nextLine();

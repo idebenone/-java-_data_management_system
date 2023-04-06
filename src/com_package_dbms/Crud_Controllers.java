@@ -14,13 +14,10 @@ import java.io.FileWriter;
 
 public class Crud_Controllers {
 
-	public static void saveDetails(String name, String roll, String dept){
-		Schema schema = new Schema();
+	public static void saveDetails(String name, int roll, String dept){
+		Schema schema = new Schema(roll,name,dept);
 		String newData = "";
-		schema.name = name;
-		schema.roll = roll;
-		schema.dept = dept;
-		newData += schema.name + " " +  schema.roll + " " + schema.dept;
+		newData += name + " " +  roll + " " + dept;
 		
 		//FILES
 		String dataFile = "data.txt";
@@ -53,18 +50,12 @@ public class Crud_Controllers {
 	}
 	
 	public static void readDataById(int id){
+		//FILES
+		String dataFile = "data.txt";
+		
 		try{
-			FileReader filereader = new FileReader("data.txt");
-			BufferedReader bufferedreader = new BufferedReader(filereader);
-
-			String line;
-			while ((line = bufferedreader.readLine()) != null) {
-                String[] parts = line.split(",");
-                int partIndex = Integer.parseInt(parts[0].trim());
-                if(partIndex == id)
-                	System.out.print(parts[1].trim());
-            }
-			bufferedreader.close();
+			System.out.print(Util_Methods.readDataById(dataFile, id));
+			
 		
 		}catch(IOException e){
 			System.out.println("An error has occurred.");
@@ -73,38 +64,9 @@ public class Crud_Controllers {
 	}
 	
 	public static void editDataById(int id, String newData){
+		String dataFile = "data.txt";
 		try{
-			FileReader filereader = new FileReader("data.txt");
-			FileWriter filewriter = new FileWriter("data.txt" + ".temp");
-			BufferedReader bufferedreader = new BufferedReader(filereader);
-			BufferedWriter bufferedwriter = new BufferedWriter(filewriter);
-
-			String line;
-			boolean found = false;
-			
-			while ((line = bufferedreader.readLine()) != null) {
-                String[] parts = line.split(",");
-                int partIndex = Integer.parseInt(parts[0].trim());
-                if(partIndex == id)
-                	parts[1] = newData;
-                	found = true;
-                String newLine = String.join(",", parts);
-                bufferedwriter.write(newLine + "\n");
-            }
-			System.out.print("Edited Successfully!");
-			bufferedreader.close();
-			bufferedwriter.close();
-			
-			if(found){
-				File originalFile = new File("data.txt");
-				File tempFile = new File("data.txt"  +".temp");
-				originalFile.delete();
-				tempFile.renameTo(originalFile);
-			}
-			else{
-				File tempFile = new File("data.txt" + ".temp");
-				tempFile.delete();
-			}				
+			System.out.print(Util_Methods.editDataById(dataFile, id, newData));
 		}catch(IOException e){
 			System.out.println("An error has occurred.");
             e.printStackTrace();
